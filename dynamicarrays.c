@@ -38,7 +38,7 @@ int dastringinsert(daString *tdastring, char *newmember)
 {
   if (!strlen(newmember) || !(tdastring->dapointers[tdastring->dasize]=(char*) xmalloc(sizeof(newmember))))
    return 0;
-  memcpy(tdastring->dapointers[tdastring->dasize], newmember, sizeof(newmember));
+  strcpy(tdastring->dapointers[tdastring->dasize], newmember);
   ++tdastring->dasize;
     
  return tdastring->dasize;
