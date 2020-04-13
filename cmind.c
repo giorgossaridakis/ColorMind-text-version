@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     // award pegs
     showcurrentpegs();
     // see if code has been found
-    if (victory=estimatevictory())
+    if ((victory=estimatevictory()))
      break;
    ++tries; }
    
