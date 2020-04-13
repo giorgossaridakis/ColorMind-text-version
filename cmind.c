@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
   generatecolorcode();
   
   // show information
-  printf("ColorMind version %.1f\ncolors:", VERSION);
+  printf("ColorMind version %.1f\ncolors:<", VERSION);
   for (i=0;i<nocolors;i++)
    printf("%s ", COLORNAMES[i]);
   printf("\b> extra: <history> <help>");
