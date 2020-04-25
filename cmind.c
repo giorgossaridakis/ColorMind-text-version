@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
    // final result
    switch (victory) {
     case 0:
-     printf("color code: ");
+     printf("Loss!\ncolor code: ");
      for (i=0;i<nocolors;i++)
       printf("%s ", COLORNAMES[colorcode[0][i]]);
      printf("\n");

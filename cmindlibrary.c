@@ -27,16 +27,15 @@ void separatewords(char formula[])
 // read and parse next line
 void readnextline()
 {
-  int i, i1, correctline;
-  
-    for (i=0;i<nocolors;i++) { // guessedcolors contains currently given code
-     guessedcolors[tries][i]=-1;
+  int i, i1, correctwords=0;
+ 
+    for (i=0;i<nocolors;i++) {
      guessedsumcolors[0][i]=0; // guessedsumcolors[2] contains given pegs from guessed colors and sum of given guessed colors
     guessedsumcolors[1][i]=0; }
-    correctline=0;
-    while (!correctline) {
-     correctline=1;
-     printf("try number: %d\n", tries+1);
+    while (correctwords<nocolors) {
+     parsercommand=0;
+     correctwords=0;
+     showtrynumber();
      while (!(i=readline(guessline)));
      // extra commands
      if (!strcmp(guessline, "history"))
@@ -47,18 +46,33 @@ void readnextline()
       revealcolorcode();
      // parse words vector
      separatewords(guessline);
-     if (words.dasize!=nocolors)
-      correctline=0;
-     if (correctline) {
+     for (i=0;i<words.dasize;i++)
+      for (i1=0;i1<nocolors;i1++)
+       if (!strcmp(words.dapointers[i], COLORNAMES[i1])) {
+        guessedcolors[tries][i]=i1;
+     ++correctwords; }
+     if (correctwords==nocolors)
       for (i=0;i<nocolors;i++)
-       for (i1=0;i1<nocolors;i1++)
-        if (!strcmp(words.dapointers[i], COLORNAMES[i1]))
-         guessedcolors[tries][i]=i1;
-      for (i=0;i<nocolors;i++)
-     ++guessedsumcolors[1][guessedcolors[tries][i]]; }
-     for (i=0;i<nocolors;i++)
-      if (guessedcolors[tries][i]==-1)
-    correctline=0; }
+       ++guessedsumcolors[1][guessedcolors[tries][i]]; 
+     else if (!parsercommand) 
+    repeatwrongcode(); }
+}
+
+// try number
+void showtrynumber()
+{
+ printf("try number:%d\n", tries+1);
+}
+
+// incomprehensible code
+void repeatwrongcode()
+{
+  int i;
+
+   for (i=0;i<words.dasize;i++)
+     printf("%s ", words.dapointers[i]);
+   printf("is not comprehensible\n");
+
 }
 
 // read text line
@@ -78,6 +92,7 @@ int readline(char line[])
 void showpegshistory()
 {
   int i, i1, i2;
+  parsercommand=1;
   
    for (i=0;i<tries;i++) {
     printf("%d:", i+1);
@@ -97,6 +112,7 @@ void showpegshistory()
 void revealcolorcode()
 {
   int i;
+  parsercommand=1;
   
   printf("color code: ");
   for (i=0;i<nocolors;i++)
@@ -129,5 +145,5 @@ void showcurrentpegs()
 // show help
 void showhelp()
 {
-   printf("               ColorMind %.1f - a MasterMind curses clone.\n\nYou,the codebreaker try to guess a color pattern, in both order and color, within ten turns.Each guess is made by placing a row of colored pegs on the bottom of the screen.Once placed, the codemaker (the computer) places your choice on the appropriate turn row and provides feedback by placing from zero to four letters in the same row.A <b>lack peg is placed for each code peg from the guess which is correct in both color and position.A <w>hite peg indicates the existence of a correct color code peg placed in the wrong position. If there are duplicate colours in the guess, they cannot all be awarded a key peg unless they correspond to the same number of duplicate colours in the hidden code. For example, if the hidden code is white-white-black-black and the player guesses white-white-white-black, the codemaker will award two colored key pegs for the two correct whites, nothing for the third white as there is not a third white in the code, and a colored key peg for the black. No indication is given of the fact that the code also includes a second black.\n", VERSION);
+   printf("               ColorMind %.1f - a MasterMind clone for the terminal.\n\nYou,the codebreaker try to guess a color pattern, in both order and color, within ten turns.Each guess is made by placing a row of colored pegs on the bottom of the screen.Once placed, the codemaker (the computer) places your choice on the appropriate turn row and provides feedback by placing from zero to four letters in the same row.A <b>lack peg is placed for each code peg from the guess which is correct in both color and position.A <w>hite peg indicates the existence of a correct color code peg placed in the wrong position. If there are duplicate colours in the guess, they cannot all be awarded a key peg unless they correspond to the same number of duplicate colours in the hidden code. For example, if the hidden code is white-white-black-black and the player guesses white-white-white-black, the codemaker will award two colored key pegs for the two correct whites, nothing for the third white as there is not a third white in the code, and a colored key peg for the black. No indication is given of the fact that the code also includes a second black.\n", VERSION);
 }

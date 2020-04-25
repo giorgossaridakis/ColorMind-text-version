@@ -30,7 +30,7 @@
 
 // variables, classes, structures
 bool reveal=false;
-int colorcode[2][MAXCOLORS], guessedcolors[MAXTRIES][MAXCOLORS]={ 0, 0 }, guessedsumcolors[2][MAXCOLORS]={ 0, 0 }, pegshistory[MAXTRIES][2]={ 0, 0 }, maxtries=STANDARDTRIESNO, tries=0, nocolors=STANDARDCOLORSNO, whitepegs, blackpegs;
+int colorcode[2][MAXCOLORS], guessedcolors[MAXTRIES][MAXCOLORS]={ 0, 0 }, guessedsumcolors[2][MAXCOLORS]={ 0, 0 }, pegshistory[MAXTRIES][2]={ 0, 0 }, maxtries=STANDARDTRIESNO, tries=0, nocolors=STANDARDCOLORSNO, whitepegs, blackpegs, parsercommand;
 const char *COLORNAMES[]={ "red", "green", "blue", "black", "cyan", "magenta", "brown", "white" }, *PEGNAMES[]={ "white", "black" }, *PASSWORD="reveal";
 char *myname, guessline[MAXLINE];
 daString words;
@@ -42,6 +42,8 @@ void generatecolorcode();
 // cmindlibrary
 int estimatevictory();
 void separatewords(char formula[]);
+void showtrynumber();
+void repeatwrongcode();
 void readnextline();
 int readline(char line[]);
 void showpegshistory();
