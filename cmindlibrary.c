@@ -54,7 +54,7 @@ void readnextline()
      if (correctwords==nocolors)
       for (i=0;i<nocolors;i++)
        ++guessedsumcolors[1][guessedcolors[tries][i]]; 
-     else if (!parsercommand) 
+     else if (!parsercommand || correctwords<nocolors) 
     repeatwrongcode(); }
 }
 
