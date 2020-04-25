@@ -51,6 +51,8 @@ void readnextline()
        if (!strcmp(words.dapointers[i], COLORNAMES[i1])) {
         guessedcolors[tries][i]=i1;
      ++correctwords; }
+     if (words.dasize!=nocolors)
+      correctwords=0;
      if (correctwords==nocolors)
       for (i=0;i<nocolors;i++)
        ++guessedsumcolors[1][guessedcolors[tries][i]]; 
