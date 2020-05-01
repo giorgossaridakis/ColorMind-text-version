@@ -125,7 +125,7 @@ void revealcolorcode()
 // show usage
 void showusage()
 {
-  printf("%s [-c <colors&rows, 2..8>] [-t <tries 2..16>] [-r <reveal code>]\n", myname);
+  printf("%s [-c <colors&rows, 2..6>] [-t <tries 2..16>] [-r <reveal code>]\n", myname);
     
  exit(EXIT_FAILURE);  
 }
