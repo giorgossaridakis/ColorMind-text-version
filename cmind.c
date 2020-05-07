@@ -34,40 +34,23 @@ int main(int argc, char *argv[])
   // initialization
   srand(time(NULL));
   generatecolorcode();
-  
-  // show information
-  printf("ColorMind version %.1f\ncolors:<", VERSION);
-  for (i=0;i<nocolors;i++)
-   printf("%s ", COLORNAMES[i]);
-  printf("\b> extra: <history> <help>");
-  if (reveal)
-   printf(" <reveal>");
-  printf("\n");
+  showinformation(1);
   
    // loop
    while (tries<maxtries) {
     // read text line and parse it
     readnextline();
-    // parse given code
-    cmindengine();
-    // award pegs
-    showcurrentpegs();
-    // see if code has been found
-    if ((victory=estimatevictory()))
-     break;
+    if (!parsercommand) {
+     // parse given code
+     cmindengine();
+     // award pegs
+     showcurrentpegs();
+     // see if code has been found
+     if ((victory=estimatevictory()))
+    break; }
    ++tries; }
    
-   // final result
-   switch (victory) {
-    case 0:
-     printf("Loss!\ncolor code: ");
-     for (i=0;i<nocolors;i++)
-      printf("%s ", COLORNAMES[colorcode[0][i]]);
-     printf("\n");
-    break;
-    case 1:
-     printf("Victory!\n");
-   break; }
+   showvictoryorloss(victory);
 
  return 0;
 }

@@ -40,8 +40,14 @@ void readnextline()
      // extra commands
      if (!strcmp(guessline, "history"))
       showpegshistory();
+     if (!strcmp(guessline, "information"))
+      showinformation(0);
      if (!strcmp(guessline, "help"))
       showhelp();
+     if (!strcmp(guessline, "exit")) {
+      parsercommand=1;
+      tries=maxtries;
+     return; }
      if (!strcmp(guessline, PASSWORD) && reveal)
       revealcolorcode();
      // parse words vector
@@ -56,7 +62,7 @@ void readnextline()
      if (correctwords==nocolors)
       for (i=0;i<nocolors;i++)
        ++guessedsumcolors[1][guessedcolors[tries][i]]; 
-     else if (!parsercommand || correctwords<nocolors) 
+     else if (!parsercommand) 
     repeatwrongcode(); }
 }
 
@@ -72,7 +78,7 @@ void repeatwrongcode()
   int i;
 
    for (i=0;i<words.dasize;i++)
-     printf("%s ", words.dapointers[i]);
+     printf("\"%s\" ", words.dapointers[i]);
    printf("is not comprehensible\n");
 
 }
@@ -96,6 +102,8 @@ void showpegshistory()
   int i, i1, i2;
   parsercommand=1;
   
+   if (!tries)
+    printf("no history recorded\n");
    for (i=0;i<tries;i++) {
     printf("%d:", i+1);
     for (i1=0;i1<nocolors;i1++)
@@ -125,7 +133,7 @@ void revealcolorcode()
 // show usage
 void showusage()
 {
-  printf("%s [-c <colors&rows, 2..6>] [-t <tries 2..16>] [-r <reveal code>]\n", myname);
+  printf("%s [-c <colors&rows, 2..6:>] [-t <tries 2..16>] [-r <reveal code>]\n", myname);
     
  exit(EXIT_FAILURE);  
 }
@@ -147,5 +155,42 @@ void showcurrentpegs()
 // show help
 void showhelp()
 {
-   printf("               ColorMind %.1f - a MasterMind clone for the terminal.\n\nYou,the codebreaker try to guess a color pattern, in both order and color, within ten turns.Each guess is made by placing a row of colored pegs on the bottom of the screen.Once placed, the codemaker (the computer) places your choice on the appropriate turn row and provides feedback by placing from zero to four letters in the same row.A <b>lack peg is placed for each code peg from the guess which is correct in both color and position.A <w>hite peg indicates the existence of a correct color code peg placed in the wrong position. If there are duplicate colours in the guess, they cannot all be awarded a key peg unless they correspond to the same number of duplicate colours in the hidden code. For example, if the hidden code is white-white-black-black and the player guesses white-white-white-black, the codemaker will award two colored key pegs for the two correct whites, nothing for the third white as there is not a third white in the code, and a colored key peg for the black. No indication is given of the fact that the code also includes a second black.\n", VERSION);
+   parsercommand=1;
+   printf("               ColorMind %.1f - a MasterMind clone for the terminal.\n\nYou, the codebreaker try to guess a color pattern, in both order and color, within a given number of turns, 8 by default. This can be changed, try cmind --help from the terminal for a list of startup options. Each guess is stated with the sequence of colors in a line of text.  Available colors are shown in the start and their number also corresponds to the number of rows. Once a line is correctly stated, the codemaker (the computer) records your selection on the appropriate turn row and respods with a line of text. A black peg is given for each code peg from the guess which is correct in both color and position. A white peg indicates the existence of a correct color code peg placed in the wrong position. If there are duplicate colours in the guess, they cannot all be awarded a key peg unless they correspond to the same number of duplicate colours in the hidden code. For example, if the hidden code is white-white-black-black and the player guesses white-white-white-black, the codemaker will award two colored key pegs for the two correct whites, nothing for the third white as there is not a third white in the code, and a colored key peg for the black. No indication is given of the fact that the code also includes a second black.\n", VERSION);
+}
+
+// show colormind information
+void showinformation(int flag) // 1 show version as well
+{
+  int i;
+  
+   parsercommand=1;
+   // show information
+   if (flag)
+    printf("ColorMind version %.1f\n", VERSION);
+   printf("colors:<");
+   for (i=0;i<nocolors;i++)
+    printf("%s ", COLORNAMES[i]);
+   printf("\b> rows:%d\nextra:<history> <information> <help>", nocolors);
+   if (reveal)
+    printf(" <reveal>");
+   printf(" <exit>\n");
+}
+
+// show final result for victory or loss
+void showvictoryorloss(int victory)
+{
+  int i;
+  
+   // final result
+   switch (victory) {
+    case 0:
+     printf("Loss!\ncolor code: ");
+     for (i=0;i<nocolors;i++)
+      printf("%s ", COLORNAMES[colorcode[0][i]]);
+     printf("\n");
+    break;
+    case 1:
+     printf("Victory!\n");
+   break; }
 }

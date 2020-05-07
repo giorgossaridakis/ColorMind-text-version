@@ -26,7 +26,7 @@
 #define MAXLINE 80
 #define CWHITE 0
 #define CBLACK 1
-#define VERSION 1.0
+#define VERSION 2.0
 
 // variables, classes, structures
 bool reveal=false;
@@ -51,6 +51,8 @@ void revealcolorcode();
 void showusage();
 void showcurrentpegs();
 void showhelp();
+void showinformation(int flag);
+void showvictoryorloss(int victory);
 
 // locally included files
 #include "cmindengine.c"
