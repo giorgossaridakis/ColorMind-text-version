@@ -75,12 +75,7 @@ void showtrynumber()
 // incomprehensible code
 void repeatwrongcode()
 {
-  int i;
-
-   for (i=0;i<words.dasize;i++)
-     printf("\"%s\" ", words.dapointers[i]);
-   printf("is not comprehensible\n");
-
+   printf("\"%s\" is not comprehensible\n", guessline);
 }
 
 // read text line
